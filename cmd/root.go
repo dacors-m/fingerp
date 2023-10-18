@@ -13,7 +13,7 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "fingerp",
-	Short: "Minimalistic and really usefull cli password manager!",
+	Short: "Minimalistic and really usefull cli password manager for your personal use!",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

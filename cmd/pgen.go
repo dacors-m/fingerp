@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/atotto/clipboard"
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +28,6 @@ var pgen = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(pgen)
-	pgen.Flags().StringP("social", "s", "None", "Social network password")
 	pgen.Flags().IntP("characters", "c", 2, "Use special characters")
 	pgen.Flags().IntP("numbers", "n", 2, "Use numbers")
 }
@@ -34,7 +35,6 @@ func init() {
 func genPass(cmd *cobra.Command, args []string) {
 
 	// flags
-	social, _ := cmd.Flags().GetString("social")
 	c, _ := cmd.Flags().GetInt("characters")
 	nu, _ := cmd.Flags().GetInt("numbers")
 
@@ -42,7 +42,11 @@ func genPass(cmd *cobra.Command, args []string) {
 	pNu := strconv.Itoa(rand.Int())
 	pCh := getRandCharacters(c)
 
-	fmt.Println("Gen pass for", social, pCh, pNu[:nu])
+	psw := pCh + pNu[:nu]
+	clipboard.WriteAll(psw)
+
+	color.Cyan(fmt.Sprint("Gen pass:"))
+	color.White(psw)
 
 }
 
