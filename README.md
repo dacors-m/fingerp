@@ -14,5 +14,4 @@ passwords using a random algorithm.
 ## Installation
 ```
 go install github.com/dacors-m/fingerp@latest
-
 ```
