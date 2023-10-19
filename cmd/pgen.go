@@ -1,8 +1,12 @@
 package cmd
 
 import (
+	"bufio"
+	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/atotto/clipboard"
@@ -58,9 +62,53 @@ func genPass(cmd *cobra.Command, args []string) {
 	psw := pL + pCh + pNu[:nu]
 	clipboard.WriteAll(psw)
 
-	d := color.New(color.FgCyan, color.Bold)
-	d.Printf("Gen pass: %s\n", psw)
+	fmt.Printf("New password: %s\n", psw)
 
+	sPass := savePassMsg(3)
+	if sPass {
+
+		uPsw := usageMsg()
+		savePass(psw, uPsw)
+	}
+}
+func savePass(p string, u string) {
+	d := color.New(color.FgCyan)
+	d.Printf("Password saved for %s ! \n", u)
+}
+
+func usageMsg() string {
+
+	d := color.New(color.FgYellow)
+	d.Print("Type the password usage\n")
+	buf := bufio.NewReader(os.Stdin)
+	res, err := buf.ReadString('\n')
+	if err != nil {
+		color.Red("Invalid alias")
+	}
+
+	return res[:len(res)-1]
+}
+
+func savePassMsg(t int) bool {
+	for i := 0; i < t; i++ {
+		d := color.New(color.FgYellow)
+		d.Print("Save password? (yes|no)\n")
+
+		buf := bufio.NewReader(os.Stdin)
+		res, err := buf.ReadString('\n')
+		if err != nil ||
+			(!strings.EqualFold(res, "yes\n") && !strings.EqualFold(res, "no\n")) {
+			color.Red("Invalid input")
+		} else {
+			switch res {
+			case "yes\n":
+				return true
+			case "no\n":
+				return false
+			}
+		}
+	}
+	return false
 }
 
 func getRandChars(l int) string {
