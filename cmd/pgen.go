@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
@@ -12,7 +11,8 @@ import (
 )
 
 const (
-	characters = "[]()/.,"
+	characters = "[]()/.,*&"
+	charset    = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
 var seededRand *rand.Rand = rand.New(
@@ -30,24 +30,45 @@ func init() {
 	rootCmd.AddCommand(pgen)
 	pgen.Flags().IntP("characters", "c", 2, "Use special characters")
 	pgen.Flags().IntP("numbers", "n", 2, "Use numbers")
+	pgen.Flags().IntP("length", "l", 8, "Password length")
 }
 
 func genPass(cmd *cobra.Command, args []string) {
 
 	// flags
-	c, _ := cmd.Flags().GetInt("characters")
-	nu, _ := cmd.Flags().GetInt("numbers")
+	c, err := cmd.Flags().GetInt("characters")
+	nu, err := cmd.Flags().GetInt("numbers")
+	nl, err := cmd.Flags().GetInt("length")
+
+	if err != nil {
+		color.Red("Invalid flags")
+	}
+
+	tl := nl - nu - c
+	if tl <= 0 {
+		color.Red("Invalid length")
+		return
+	}
 
 	// fabric pass
 	pNu := strconv.Itoa(rand.Int())
 	pCh := getRandCharacters(c)
+	pL := getRandChars(tl)
 
-	psw := pCh + pNu[:nu]
+	psw := pL + pCh + pNu[:nu]
 	clipboard.WriteAll(psw)
 
-	color.Cyan(fmt.Sprint("Gen pass:"))
-	color.White(psw)
+	d := color.New(color.FgCyan, color.Bold)
+	d.Printf("Gen pass: %s\n", psw)
 
+}
+
+func getRandChars(l int) string {
+	s := make([]byte, l)
+	for i := range s {
+		s[i] = charset[rand.Intn(len(charset))]
+	}
+	return string(s)
 }
 
 func getRandCharacters(l int) string {

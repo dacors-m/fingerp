@@ -10,10 +10,30 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const short = `       
+		 _____   ____
+		|  ___| |  _ \
+		| |_    | |_) |
+		|  _|   |  __/
+		|_|     |_|
+
+Minimalistic and really usefull cli password manager 
+for your personal use!
+
+`
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "fingerp",
-	Short: "Minimalistic and really usefull cli password manager for your personal use!",
+	Use: "fingerp",
+	Short: `       
+		 _____   ____
+		|  ___| |  _ \
+		| |_    | |_) |
+		|  _|   |  __/
+		|_|     |_|
+
+Minimalistic and really usefull cli password manager 
+for your personal use!`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
