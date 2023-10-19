@@ -7,4 +7,6 @@
 
 ```
 ## Minimalistic and really usefull cli password manager for your personal use!
-
+This cli application allows you to create password based on different parameters
+like length, ammount of characters and amount of number. Fingerp autogenerates these
+passwords using a random algorithm.
