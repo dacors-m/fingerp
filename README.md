@@ -15,3 +15,8 @@ passwords using a random algorithm.
 ```
 go install github.com/dacors-m/fingerp@latest
 ```
+
+## Password Gen
+
+If you want to generate a password, run the command ``` fingerp pgen```, it will
+generate you a password with the deffault values (length 8, 2 characters and 2 numbers)
