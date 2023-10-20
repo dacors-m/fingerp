@@ -86,7 +86,7 @@ func usageMsg() string {
 		color.Red("Invalid alias")
 	}
 
-	return res[:len(res)-1]
+	return strings.Replace(res[:len(res)-1], " ", "", -1)
 }
 
 func savePassMsg(t int) bool {
@@ -96,14 +96,15 @@ func savePassMsg(t int) bool {
 
 		buf := bufio.NewReader(os.Stdin)
 		res, err := buf.ReadString('\n')
+		res = strings.Replace(res[:len(res)-1], " ", "", -1)
 		if err != nil ||
-			(!strings.EqualFold(res, "yes\n") && !strings.EqualFold(res, "no\n")) {
+			(!strings.EqualFold(res, "yes") && !strings.EqualFold(res, "no")) {
 			color.Red("Invalid input")
 		} else {
 			switch res {
-			case "yes\n":
+			case "yes":
 				return true
-			case "no\n":
+			case "no":
 				return false
 			}
 		}
