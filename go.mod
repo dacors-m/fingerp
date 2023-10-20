@@ -1,4 +1,4 @@
-module dacors-m/fingerp
+module github.com/dacors-m/fingerp
 
 go 1.20
 
