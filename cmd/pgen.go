@@ -32,9 +32,12 @@ var pgen = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(pgen)
-	pgen.Flags().IntP("characters", "c", 2, "Use special characters")
-	pgen.Flags().IntP("numbers", "n", 2, "Use numbers")
-	pgen.Flags().IntP("length", "l", 8, "Password length")
+	pgen.Flags().IntP("characters", "c", 2, "amount of special characters")
+	pgen.Flags().IntP("numbers", "n", 2, "amount of numbers")
+	pgen.Flags().IntP("length", "l", 8, "password length")
+	pgen.Flags().BoolP("store", "s", true, "store password")
+	pgen.Flags().StringP("reference", "r", "", "password reference")
+	pgen.MarkFlagRequired("reference")
 }
 
 func genPass(cmd *cobra.Command, args []string) {
@@ -43,6 +46,8 @@ func genPass(cmd *cobra.Command, args []string) {
 	tl, err := cmd.Flags().GetInt("length")
 	nu, err := cmd.Flags().GetInt("numbers")
 	c, err := cmd.Flags().GetInt("characters")
+	s, err := cmd.Flags().GetBool("store")
+	ref, err := cmd.Flags().GetString("reference")
 
 	if err != nil {
 		color.Red("Invalid flags")
@@ -62,6 +67,11 @@ func genPass(cmd *cobra.Command, args []string) {
 	psw := pL + pCh + pNu[:nu]
 
 	clipboard.WriteAll(psw)
+
+	if s {
+		fmt.Println("store")
+		fmt.Println(ref)
+	}
 
 	fmt.Printf("New password: %s\n", psw)
 }
