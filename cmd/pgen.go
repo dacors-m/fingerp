@@ -1,13 +1,9 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
 	"math/rand"
-	"os"
 	"strconv"
-	"strings"
-	"time"
 
 	"github.com/atotto/clipboard"
 	"github.com/dacors-m/fingerp/utils"
@@ -18,10 +14,6 @@ import (
 const (
 	characters = "[]()/.,*&"
 	charset    = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-)
-
-var seededRand *rand.Rand = rand.New(
-	rand.NewSource(time.Now().UnixNano()),
 )
 
 var pgen = &cobra.Command{
@@ -74,17 +66,4 @@ func genPass(cmd *cobra.Command, args []string) {
 	}
 
 	fmt.Printf("New password: %s\n", psw)
-}
-
-func usageMsg() string {
-
-	d := color.New(color.FgYellow)
-	d.Print("Type the password usage\n")
-	buf := bufio.NewReader(os.Stdin)
-	res, err := buf.ReadString('\n')
-	if err != nil {
-		color.Red("Invalid alias")
-	}
-
-	return strings.Replace(res[:len(res)-1], " ", "", -1)
 }
